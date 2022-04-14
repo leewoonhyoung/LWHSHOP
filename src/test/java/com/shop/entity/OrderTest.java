@@ -2,6 +2,8 @@ package com.shop.entity;
 
 import com.shop.constant.ItemSellStatus;
 import com.shop.repository.ItemRepository;
+import com.shop.repository.MemberRepository;
+import com.shop.repository.OrderItemRepository;
 import com.shop.repository.OrderRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,10 @@ class OrderTest {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
+
 
     @Autowired
     ItemRepository itemRepository;
@@ -66,5 +72,60 @@ class OrderTest {
             .orElseThrow(EntityNotFoundException::new);
     assertEquals(3, savedOrder.getOrderItems().size());
     }
+
+
+    //고아 객체 삭제 TEst문
+
+    public Order createOrder(){
+        Order order = new Order();
+
+        for(int i =0; i<3 ; i++){
+
+            Item item = this.createItem();
+            itemRepository.save(item);
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(item);
+            orderItem.setCount(10);
+            orderItem.setOrderPrice(1000);
+            orderItem.setOrder(order);
+            order.getOrderItems().add(orderItem);
+        }
+
+        Member member = new Member();
+        memberRepository.save(member);
+
+        order.setMember(member);
+        orderRepository.save(order);
+        return order;
+    }
+
+    @Test
+    @DisplayName("고아객체 제거 테스트")
+    public void orphanRemovalTest(){
+        Order order = this.createOrder();
+        order.getOrderItems().remove(0); // order 엔티티에서 관리하고 있는 orderItem 리스트의 0번째 인덱스 요소를 제거합니다.
+        em.flush();
+    }
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
+
+    @Test
+    @DisplayName("지연 로딩 테스트")
+    public void lazyLoadingTest(){
+        Order order = this.createOrder();
+        Long orderItemId = order.getOrderItems().get(0).getId();
+        em.flush();
+        em.clear();
+
+        OrderItem orderItem = orderItemRepository.findById(orderItemId)
+                .orElseThrow(EntityNotFoundException::new);
+        System.out.println("Order class : " + orderItem.getOrder().getClass());
+        System.out.println("======================");
+        orderItem.getOrder().getOrderDate();
+        System.out.println("======================");
+    }
+
 
 }
