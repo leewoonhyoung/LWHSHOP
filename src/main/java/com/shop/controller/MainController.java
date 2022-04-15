@@ -8,6 +8,6 @@ public class MainController {
 
     @GetMapping(value = "/")
     public String main(){
-        return "main2";
+        return "main";
     }
 }
