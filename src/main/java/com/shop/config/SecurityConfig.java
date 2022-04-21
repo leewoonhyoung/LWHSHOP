@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //httpServletRequest를 처리하겠습니다를 알려줌.
         http.authorizeRequests()
+                //permitAll() 모든 사용자가 인증없이 해당 경로를 접근할 수 있도록 설정한다.
                 .mvcMatchers("/","/members/**","/item/**", "/images/**").permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated() // 위 과정이 아닌 경우 나머지 경로들은 모두 인증해 달라는 code

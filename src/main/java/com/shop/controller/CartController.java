@@ -25,6 +25,7 @@ public class CartController {
     @PostMapping(value = "/cart")
     public @ResponseBody
     ResponseEntity order(@RequestBody @Valid CartItemDto cartItemDto, BindingResult bindingResult, Principal principal){
+
         if(bindingResult.hasErrors()){
             StringBuilder sb = new StringBuilder();
             List<FieldError> fieldErrors = bindingResult.getFieldErrors();
