@@ -1,5 +1,6 @@
 package com.shop.service;
 
+import com.shop.dto.CartDetailDto;
 import com.shop.dto.CartItemDto;
 import com.shop.entity.Cart;
 import com.shop.entity.CartItem;
@@ -12,8 +13,12 @@ import com.shop.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -47,5 +52,22 @@ public class CartService {
             cartItemRepository.save(cartItem);
             return cartItem.getId();
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<CartDetailDto> getCartList(String email){
+
+        List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
+
+        Member member = memberRepository.findByEmail(email);
+        Cart cart = cartRepository.findByMemberId(member.getId());
+        if(cart == null){
+            return cartDetailDtoList;
+        }
+
+        //장바구니에 담긴 상품 정보를 조회.
+        cartDetailDtoList = cartItemRepository.findCartDetailDtoList(cart.getId());
+
+        return cartDetailDtoList;
     }
 }
