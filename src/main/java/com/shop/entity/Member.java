@@ -22,6 +22,7 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     @Column(unique = true)
@@ -32,6 +33,7 @@ public class Member extends BaseEntity {
     private String address;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     @Column

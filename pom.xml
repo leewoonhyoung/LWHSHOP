@@ -15,6 +15,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
+		<org.springoauth2-version>2.0.12.RELEASE</org.springoauth2-version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -94,6 +95,19 @@
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>2.3.9</version>
+		</dependency>
+
+		<!-- Spring Security OAuth2 -->
+		<dependency>
+			<groupId>org.springframework.security.oauth</groupId>
+			<artifactId>spring-security-oauth2</artifactId>
+			<version>${org.springoauth2-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+			<version>2.6.7</version>
 		</dependency>
 
 		<dependency>
