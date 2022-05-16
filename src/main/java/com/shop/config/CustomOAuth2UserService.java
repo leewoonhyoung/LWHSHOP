@@ -1,9 +1,5 @@
 package com.shop.config;
 
-import LWH.LWHWEBDESK.config.auth.dto.OAuthAttributes;
-import LWH.LWHWEBDESK.config.auth.dto.SessionUser;
-import LWH.LWHWEBDESK.domain.user.User;
-import LWH.LWHWEBDESK.domain.user.UserRepository;
 import com.shop.config.auth.OAuthAttributes;
 import com.shop.config.auth.SessionUser;
 import com.shop.entity.Member;
@@ -51,10 +47,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private Member saveOrUpdate(OAuthAttributes attributes){
-        Member member = MemberRepository.findByEmail(attributes.getEmail())
+        Member member = memberRepository.findByEmail2(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
                 .orElse(attributes.toEntity());
 
-        return  MemberRepository.save(member);
+        return  memberRepository.save(member);
     }
 }
