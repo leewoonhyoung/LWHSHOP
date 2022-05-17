@@ -2,10 +2,7 @@ package com.shop.entity;
 
 import com.shop.constant.Role;
 import com.shop.dto.MemberFormDto;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@RequiredArgsConstructor
 public class Member extends BaseEntity {
 
     @Id
@@ -52,9 +50,6 @@ public class Member extends BaseEntity {
 
     }
 
-    @Builder
-    public Member(){
-    }
 
     @Builder
     public Member(String name, String email, String picture, Role role) {

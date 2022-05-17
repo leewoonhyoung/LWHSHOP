@@ -1,5 +1,6 @@
 package com.shop.service;
 
+import com.shop.dto.MemberFormDto;
 import com.shop.entity.Member;
 import com.shop.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -46,4 +50,13 @@ public class MemberService implements UserDetailsService {
                 .roles(member.getRole().toString())
                 .build();
     }
+
+
+    // TODO ERD 구조 파악 다시하기
+    public List<MemberFormDto> findAllDesc(){
+        return memberRepository.findAllDesc().stream()
+                .map(MemberFormDto::new)
+                .collect(Collectors.toList());
+
+
 }
