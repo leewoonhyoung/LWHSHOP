@@ -46,6 +46,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 attributes.getNameAttributeKey());
     }
 
+    //변경사항 Member 를 받어야 하나? 아니면 새로운 user entity를 만들까?
+
     private Member saveOrUpdate(OAuthAttributes attributes){
         Member member = memberRepository.findByEmail2(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
