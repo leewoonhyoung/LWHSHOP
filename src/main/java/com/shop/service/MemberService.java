@@ -22,16 +22,16 @@ public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
-    public Member saveMember(Member member){
+    public Member saveMember(Member member) {
         //중복 제거
         validationDuplicateMember(member);
         return memberRepository.save(member);
     }
 
 
-    private void validationDuplicateMember(Member member){
+    private void validationDuplicateMember(Member member) {
         Member findMember = memberRepository.findByEmail(member.getEmail());
-        if(findMember !=null){
+        if (findMember != null) {
             throw new IllegalStateException("이미 가입된 회원입니다.");
         }
     }
@@ -40,7 +40,7 @@ public class MemberService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email);
 
-        if(member == null){
+        if (member == null) {
             throw new UsernameNotFoundException(email);
         }
 
@@ -53,10 +53,10 @@ public class MemberService implements UserDetailsService {
 
 
     // TODO ERD 구조 파악 다시하기
-    public List<MemberFormDto> findAllDesc(){
+    @Transactional
+    public List<MemberFormDto> findAllDesc() {
         return memberRepository.findAllDesc().stream()
-                .map(MemberFormDto::new)
+                .map(entity -> new MemberFormDto())
                 .collect(Collectors.toList());
-
-
+    }
 }

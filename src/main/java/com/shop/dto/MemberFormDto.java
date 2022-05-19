@@ -1,6 +1,8 @@
 package com.shop.dto;
 
+import com.shop.entity.Member;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
@@ -10,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 public class MemberFormDto {
 
     @NotBlank(message="이름은 필수 입력 값입니다")
