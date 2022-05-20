@@ -15,10 +15,7 @@ public interface MemberRepository  extends JpaRepository<Member, Long> {
 
     Member findByEmail(String email);
 
-    @Query("select m from Member m WHERE m.email= m.name ")
-    Optional<Member> findByEmail2(String email);
-
-    @Query("SELECT m FROM Member n order by p.id DESC ")
+    @Query("SELECT m FROM Member m order by m.id DESC ")
     List<Member> findAllDesc();
 
 
