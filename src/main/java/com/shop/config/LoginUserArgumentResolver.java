@@ -1,7 +1,7 @@
 package com.shop.config;
 
 
-import com.shop.config.auth.SessionUser;
+import com.shop.dto.SessionMemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean isLoginUserAnnotation = parameter.getParameterAnnotation(LoginUser.class) != null;
-        boolean isUserClass = SessionUser.class.equals(parameter.getParameterType());
+        boolean isUserClass = SessionMemberDto.class.equals(parameter.getParameterType());
 
         return isLoginUserAnnotation && isUserClass;
     }

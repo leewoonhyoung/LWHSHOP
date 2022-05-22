@@ -13,7 +13,8 @@ import static org.hibernate.loader.Loader.SELECT;
 
 public interface MemberRepository  extends JpaRepository<Member, Long> {
 
-    Member findByEmail(String email);
+
+    Optional<Member> findByEmail(String email);
 
     @Query("SELECT m FROM Member m order by m.id DESC ")
     List<Member> findAllDesc();

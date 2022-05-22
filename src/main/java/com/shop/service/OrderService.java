@@ -30,7 +30,7 @@ public class OrderService {
     public Long order(OrderDto orderDto, String email){
         Item item = itemRepository.findById(orderDto.getItemId()).orElseThrow(EntityNotFoundException::new);
 
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
 
         List<OrderItem> orderItemList = new ArrayList<>();
         OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
@@ -69,7 +69,7 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public boolean validateOrder(Long orderId, String email){
-        Member curMember = memberRepository.findByEmail(email);
+        Member curMember = memberRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
         Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
         Member savedMember =  order.getMember();
 
@@ -85,7 +85,7 @@ public class OrderService {
     }
 
     public Long orders(List<OrderDto> orderDtoList, String email){
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
         List<OrderItem> orderItemList = new ArrayList<>();
 
         for(OrderDto orderDto : orderDtoList){

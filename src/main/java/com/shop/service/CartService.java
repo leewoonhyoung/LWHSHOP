@@ -23,6 +23,7 @@ import org.w3c.dom.stylesheets.LinkStyle;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -39,7 +40,8 @@ public class CartService {
 
     public Long addCart(CartItemDto cartItemDto, String email){
         Item item = itemRepository.findById(cartItemDto.getItemId()).orElseThrow(EntityNotFoundException::new);
-        Member member =  memberRepository.findByEmail(email);
+        Member member =  memberRepository.findByEmail(email)
+                .orElseThrow(EntityNotFoundException::new);
 
         //현재 로그인한 회원의 장바구니 엔티티 조회
         Cart cart = cartRepository.findByMemberId(member.getId());
@@ -66,7 +68,7 @@ public class CartService {
 
         List<CartDetailDto> cartDetailDtoList = new ArrayList<>();
 
-        Member member = memberRepository.findByEmail(email);
+        Member member = memberRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
         Cart cart = cartRepository.findByMemberId(member.getId());
         if(cart == null){
             return cartDetailDtoList;
@@ -80,7 +82,7 @@ public class CartService {
 
     @Transactional(readOnly = true)
     public boolean validateCartItem(Long cartItemId, String email){
-        Member curMember = memberRepository.findByEmail(email);
+        Member curMember = memberRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(EntityNotFoundException::new);
         Member savedMember = cartItem.getCart().getMember();
 
