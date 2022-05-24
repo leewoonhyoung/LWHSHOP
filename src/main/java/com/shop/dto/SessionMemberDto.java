@@ -5,7 +5,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
-
+//OAuthAttributes는 CustomOAuth2UserService의 공용 dto 클래스다.
 //SessionMember 에서는 인증된 사용자만을 담은 dto 입니다.
 @Getter
 public class SessionMemberDto implements Serializable {

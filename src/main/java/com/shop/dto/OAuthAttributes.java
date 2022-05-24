@@ -1,4 +1,4 @@
-package com.shop.config.auth;
+package com.shop.dto;
 
 import com.shop.constant.Role;
 import com.shop.entity.Member;
@@ -7,6 +7,9 @@ import lombok.Getter;
 
 import java.util.Map;
 
+
+//OAuthAttributes는 CustomOAuth2UserService의 공용 dto 클래스다.
+//SessionMemberdto는  인증된 사용자만의 위한 dto이다! 해깔리지 말기
 @Getter
 public class OAuthAttributes {
 
