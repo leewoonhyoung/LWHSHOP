@@ -89,7 +89,7 @@ public class OrderService {
         List<OrderItem> orderItemList = new ArrayList<>();
 
 
-        //주문할 상품 리스트를 만든다. interface에 List 형식으로 만들었기 때문에 orElseThrow 가 필수!
+        //주문할 상품 리스트를 만든다. interface에 List 형식으로 만들었기 때문에 orElseThrow 가 필수! //2022-0525
         for(OrderDto orderDto : orderDtoList){
             Item item = itemRepository.findById(orderDto.getItemId()).orElseThrow(EntityNotFoundException::new);
             OrderItem orderItem = OrderItem.createOrderItem(item, orderDto.getCount());
