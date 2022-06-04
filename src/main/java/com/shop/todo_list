@@ -16,3 +16,6 @@
 // 지도 API 넣어보기
 
 //  6 -3  spring Application 기능 보완 및 기능 분석
+
+
+6-4  builder 를 활용하자!!! 모든 생성자를 builer로 변환하기

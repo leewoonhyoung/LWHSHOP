@@ -1,6 +1,7 @@
 package com.shop.dto;
 
 import com.shop.entity.Member;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public class SessionMemberDto implements Serializable {
     private String picture;
 
 
+    @Builder
     public SessionMemberDto(Member user){
         this.name = user.getName();
         this.email = user.getEmail();

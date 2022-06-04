@@ -1,6 +1,7 @@
 package com.shop.dto;
 
 import com.shop.entity.OrderItem;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,8 @@ public class OrderItemDto {
     private int orderPrice;
     private String imgUrl;
 
+
+    @Builder
     public OrderItemDto(OrderItem orderItem, String imgUrl) {
         this.itemNm = orderItem.getItem().getItemNm();
         this.count = orderItem.getCount();

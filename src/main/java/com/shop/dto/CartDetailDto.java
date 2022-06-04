@@ -1,5 +1,6 @@
 package com.shop.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class CartDetailDto {
 
     private String imgUrl;
 
+    @Builder
     public CartDetailDto(Long cartItemId, String itemNm, int price, int count, String imgUrl) {
         this.cartItemId = cartItemId;
         this.itemNm = itemNm;
