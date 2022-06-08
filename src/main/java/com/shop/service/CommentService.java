@@ -1,16 +1,6 @@
 package com.shop.service;
 
-import com.programming.techie.springredditclone.dto.CommentsDto;
-import com.programming.techie.springredditclone.exceptions.PostNotFoundException;
-import com.programming.techie.springredditclone.exceptions.SpringRedditException;
-import com.programming.techie.springredditclone.mapper.CommentMapper;
-import com.programming.techie.springredditclone.model.Comment;
-import com.programming.techie.springredditclone.model.NotificationEmail;
-import com.programming.techie.springredditclone.model.Post;
-import com.programming.techie.springredditclone.model.User;
-import com.programming.techie.springredditclone.repository.CommentRepository;
-import com.programming.techie.springredditclone.repository.PostRepository;
-import com.programming.techie.springredditclone.repository.UserRepository;
+
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,7 +15,7 @@ import static java.util.stream.Collectors.toList;
 @AllArgsConstructor
 public class CommentService {
     private static final String POST_URL = "";
-    private final PostRepository postRepository;
+    private final PostsRepository postRepository;
     private final UserRepository userRepository;
     private final AuthService authService;
     private final CommentMapper commentMapper;
