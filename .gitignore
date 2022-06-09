@@ -33,3 +33,5 @@ build/
 .vscode/
 
 application-oauth.properties
+
+src/main/resources/application.yml
