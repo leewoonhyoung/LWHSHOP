@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "member")
@@ -29,6 +30,10 @@ public class Member extends BaseEntity {
     private String password;
 
     private String address;
+
+    private Instant created;
+    private boolean enabled;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

@@ -2,10 +2,14 @@ package com.shop.service;
 
 
 import com.shop.dto.MailDto;
+import com.shop.entity.NotificationEmail;
+import com.shop.exception.SpringRedditException;
 import com.sun.mail.util.logging.MailHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.groovy.transform.GroovyASTTransformationClass;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
