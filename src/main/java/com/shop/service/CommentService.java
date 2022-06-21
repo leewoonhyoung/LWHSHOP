@@ -2,6 +2,10 @@ package com.shop.service;
 
 
 import com.shop.dto.CommentsDto;
+import com.shop.entity.Post;
+import com.shop.exception.PostNotFoundException;
+import com.shop.repository.MemberRepository;
+import com.shop.repository.PostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,9 +19,11 @@ import static java.util.stream.Collectors.toList;
 @Service
 @AllArgsConstructor
 public class CommentService {
+
     private static final String POST_URL = "";
-    private final PostsRepository postRepository;
-    private final UserRepository userRepository;
+
+    private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
     private final AuthService authService;
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
