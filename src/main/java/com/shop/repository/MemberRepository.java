@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,9 @@ import static org.hibernate.loader.Loader.SELECT;
 
 public interface MemberRepository  extends JpaRepository<Member, Long> {
 
+
+    Optional<Member> findByUsername(String name) {
+    }
 
     Optional<Member> findByEmail(String email);
 

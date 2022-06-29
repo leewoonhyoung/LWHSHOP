@@ -2,8 +2,11 @@ package com.shop.service;
 
 
 import com.shop.dto.CommentsDto;
+import com.shop.entity.Member;
+import com.shop.entity.NotificationEmail;
 import com.shop.entity.Post;
 import com.shop.exception.PostNotFoundException;
+import com.shop.repository.CommentRepository;
 import com.shop.repository.MemberRepository;
 import com.shop.repository.PostRepository;
 import lombok.AllArgsConstructor;
@@ -40,8 +43,8 @@ public class CommentService {
         sendCommentNotification(message, post.getUser());
     }
 
-    private void sendCommentNotification(String message, User user) {
-        mailService.sendMail(new NotificationEmail(user.getUsername() + " Commented on your post", user.getEmail(), message));
+    private void sendCommentNotification(String message, Member member) {
+        mailService.sendMail(new NotificationEmail(member.getUsername() + " Commented on your post", member.getEmail(), message));
     }
 
     public List<CommentsDto> getAllCommentsForPost(Long postId) {
@@ -51,10 +54,10 @@ public class CommentService {
                 .map(commentMapper::mapToDto).collect(toList());
     }
 
-    public List<CommentsDto> getAllCommentsForUser(String userName) {
-        User user = userRepository.findByUsername(userName)
-                .orElseThrow(() -> new UsernameNotFoundException(userName));
-        return commentRepository.findAllByUser(user)
+    public List<CommentsDto> getAllCommentsForUser(String name) {
+        Member member = MemberRepository.findByUsername(name)
+                .orElseThrow(() -> new UsernameNotFoundException(name));
+        return commentRepository.findAllByMember(member)
                 .stream()
                 .map(commentMapper::mapToDto)
                 .collect(toList());
