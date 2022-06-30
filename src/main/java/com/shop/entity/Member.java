@@ -13,6 +13,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @ToString
+@Builder
 @RequiredArgsConstructor
 public class Member extends BaseEntity {
 
@@ -42,21 +43,19 @@ public class Member extends BaseEntity {
     @Column
     private String picture;
 
-    public static Member createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
-        Member member = new Member();
-        member.setName(memberFormDto.getName());
-        member.setEmail(memberFormDto.getEmail());
-        member.setAddress(memberFormDto.getAddress());
-
+    public static MemberBuilder createMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder){
         String password = passwordEncoder.encode(memberFormDto.getPassword());
-        member.setPassword(password);
-        member.setRole(Role.USER);
-        return member;
+        return Member.builder()
+                .name(memberFormDto.getName())
+                .email(memberFormDto.getEmail())
+                .address(memberFormDto.getAddress())
+                .password(password)
+                .role(Role.USER);
+
 
     }
 
 
-    @Builder
     public Member(String name, String email, String picture, Role role) {
         this.name = name;
         this.email = email;

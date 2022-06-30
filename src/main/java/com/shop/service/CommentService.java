@@ -55,7 +55,7 @@ public class CommentService {
     }
 
     public List<CommentsDto> getAllCommentsForUser(String name) {
-        Member member = MemberRepository.findByUsername(name)
+        Member member = MemberRepository.findByName(name)
                 .orElseThrow(() -> new UsernameNotFoundException(name));
         return commentRepository.findAllByMember(member)
                 .stream()

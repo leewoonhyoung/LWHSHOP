@@ -2,6 +2,7 @@ package com.shop.service;
 
 import com.shop.dto.MemberFormDto;
 import com.shop.entity.Member;
+import lombok.Builder;
 import org.assertj.core.api.Assertions;
 import org.eclipse.jdt.internal.compiler.lookup.MemberTypeBinding;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Builder
 @Transactional
 @TestPropertySource(locations = "classpath:application-test.properties")
 class MemberServiceTest {

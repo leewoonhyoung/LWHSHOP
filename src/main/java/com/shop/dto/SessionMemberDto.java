@@ -17,9 +17,9 @@ public class SessionMemberDto implements Serializable {
 
 
     @Builder
-    public SessionMemberDto(Member user){
-        this.name = user.getName();
-        this.email = user.getEmail();
-        this.picture = user.getPicture();
+    public SessionMemberDto(Member member){
+        this.name = member.getName();
+        this.email = member.getEmail();
+        this.picture = member.getPicture();
     }
 }

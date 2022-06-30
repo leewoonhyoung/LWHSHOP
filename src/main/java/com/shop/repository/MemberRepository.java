@@ -15,8 +15,8 @@ import static org.hibernate.loader.Loader.SELECT;
 public interface MemberRepository  extends JpaRepository<Member, Long> {
 
 
-    Optional<Member> findByUsername(String name) {
-    }
+
+    List<Member> findByName(String name);
 
     Optional<Member> findByEmail(String email);
 
