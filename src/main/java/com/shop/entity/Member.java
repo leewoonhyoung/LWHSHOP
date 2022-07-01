@@ -49,12 +49,10 @@ public class Member extends BaseEntity {
                 .name(memberFormDto.getName())
                 .email(memberFormDto.getEmail())
                 .address(memberFormDto.getAddress())
-                .password(password)
+                .password(memberFormDto.getPassword())
                 .role(Role.USER);
 
-
     }
-
 
     public Member(String name, String email, String picture, Role role) {
         this.name = name;

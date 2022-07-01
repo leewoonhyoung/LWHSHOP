@@ -6,6 +6,7 @@ import com.shop.entity.Member;
 import com.shop.entity.NotificationEmail;
 import com.shop.entity.Post;
 import com.shop.exception.PostNotFoundException;
+import com.shop.exception.SpringRedditException;
 import com.shop.repository.CommentRepository;
 import com.shop.repository.MemberRepository;
 import com.shop.repository.PostRepository;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -26,6 +28,7 @@ public class CommentService {
     private static final String POST_URL = "";
 
     private final PostRepository postRepository;
+
     private final MemberRepository memberRepository;
     private final AuthService authService;
     private final CommentMapper commentMapper;
@@ -55,8 +58,9 @@ public class CommentService {
     }
 
     public List<CommentsDto> getAllCommentsForUser(String name) {
-        Member member = MemberRepository.findByName(name)
+       Member member = memberRepository.findByName(name)
                 .orElseThrow(() -> new UsernameNotFoundException(name));
+
         return commentRepository.findAllByMember(member)
                 .stream()
                 .map(commentMapper::mapToDto)

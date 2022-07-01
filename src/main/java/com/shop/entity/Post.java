@@ -1,9 +1,6 @@
 package com.shop.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -13,12 +10,13 @@ import java.time.Instant;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Data
 @Entity
 @Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long postId;
@@ -36,8 +34,8 @@ public class Post {
     private Integer voteCount = 0;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
-    private Post post;
+    @JoinColumn(name = "userid", referencedColumnName = "userId")
+    private Member member;
 
     private Instant createdDate;
 
