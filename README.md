@@ -14,5 +14,9 @@ JAVA MAILSEND 1.6.2
   2. 자유게시판
   3. 결제 서비스
   4. 배포 AWS EC2
+  5. comment 연결
+  6. naver , google , kakao Auth2Service 설정
+  7. 후기 service  평점 관리
+  
   
   
