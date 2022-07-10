@@ -47,7 +47,7 @@ public class MailService {
     public void mailSend(MailDto mailDto) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mailDto.getAddress());
-        message.setFrom(MailService.FROM_ADDRESS);
+        message.setFrom(mailDto.FROM_ADDRESS);  //todo  checking grammer
         message.setSubject(mailDto.getTitle());
         message.setText(mailDto.getMessage());
 
