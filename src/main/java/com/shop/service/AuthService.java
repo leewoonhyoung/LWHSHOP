@@ -11,6 +11,7 @@ import com.programming.techie.springredditclone.model.VerificationToken;
 import com.programming.techie.springredditclone.repository.UserRepository;
 import com.programming.techie.springredditclone.repository.VerificationTokenRepository;
 import com.programming.techie.springredditclone.security.JwtProvider;
+import com.shop.constant.Role;
 import com.shop.entity.Member;
 import com.shop.repository.MemberRepository;
 import lombok.AllArgsConstructor;
@@ -52,7 +53,7 @@ public class AuthService {
         member.setCreated(Instant.now());
         member.setEnabled(false);
 
-        MemberRepository.save(member);
+        memberRepository.save(member);
 
         String token = generateVerificationToken(member);
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
