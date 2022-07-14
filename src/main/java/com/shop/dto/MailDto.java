@@ -1,16 +1,16 @@
 package com.shop.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.shop.entity.Member;
+import lombok.*;
 
 @Getter
-@Setter
+@Setter // todo setter 제거후 builder 형성
 @AllArgsConstructor
 public class MailDto {
     private String address;
     private String title;
     private String message;
-}
+
+    }
+

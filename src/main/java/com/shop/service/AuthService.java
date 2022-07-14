@@ -66,7 +66,7 @@ public class AuthService {
     public Member getCurrentUser() {
         Jwt principal = (Jwt) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
-        return MemberRepository.findByUsername(principal.getSubject())
+        return memberRepository.findByUsername(principal.getSubject())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getSubject()));
     }
 
