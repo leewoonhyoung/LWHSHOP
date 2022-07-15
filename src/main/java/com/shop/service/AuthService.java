@@ -13,6 +13,7 @@ import com.programming.techie.springredditclone.repository.VerificationTokenRepo
 import com.programming.techie.springredditclone.security.JwtProvider;
 import com.shop.constant.Role;
 import com.shop.entity.Member;
+import com.shop.exception.SpringRedditException;
 import com.shop.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -66,15 +67,18 @@ public class AuthService {
     public Member getCurrentUser() {
         Jwt principal = (Jwt) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
-        return memberRepository.findByUsername(principal.getSubject())
+        return memberRepository.findByName(principal.getSubject())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getSubject()));
     }
 
+
+    //todo verificationToken build.
+
     private void fetchUserAndEnable(VerificationToken verificationToken) {
-        String username = verificationToken.getUser().getUsername();
-        User user = MemberRepository.findByUsername(username).orElseThrow(() -> new SpringRedditException("User not found with name - " + username));
-        user.setEnabled(true);
-        MemberRepository.save(user);
+        String username = verificationToken.get().getUsername();
+        Member member = memberRepository.findByName(username).orElseThrow(() -> new SpringRedditException("User not found with name - " + username));
+        member.setEnabled(true);
+        memberRepository.save(member);
     }
 
     private String generateVerificationToken(User user) {
