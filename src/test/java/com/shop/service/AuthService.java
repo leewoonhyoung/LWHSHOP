@@ -1,7 +1,10 @@
 package com.shop.service;
 
 import com.shop.entity.Member;
+import com.shop.entity.VerificationToken;
+import com.shop.exception.SpringRedditException;
 import com.shop.repository.MemberRepository;
+import com.shop.repository.VerificationTokenRepository;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class AuthService {

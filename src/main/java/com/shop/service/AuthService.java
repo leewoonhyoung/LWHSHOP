@@ -1,20 +1,11 @@
 package com.shop.service;
 
-import com.programming.techie.springredditclone.dto.AuthenticationResponse;
-import com.programming.techie.springredditclone.dto.LoginRequest;
-import com.programming.techie.springredditclone.dto.RefreshTokenRequest;
-import com.programming.techie.springredditclone.dto.RegisterRequest;
-import com.programming.techie.springredditclone.exceptions.SpringRedditException;
-import com.programming.techie.springredditclone.model.NotificationEmail;
-import com.programming.techie.springredditclone.model.User;
-import com.programming.techie.springredditclone.model.VerificationToken;
-import com.programming.techie.springredditclone.repository.UserRepository;
-import com.programming.techie.springredditclone.repository.VerificationTokenRepository;
-import com.programming.techie.springredditclone.security.JwtProvider;
 import com.shop.constant.Role;
 import com.shop.entity.Member;
+import com.shop.entity.NotificationEmail;
 import com.shop.exception.SpringRedditException;
 import com.shop.repository.MemberRepository;
+import com.shop.repository.VerificationTokenRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,21 +36,20 @@ public class AuthService {
     private final RefreshTokenService refreshTokenService;
 
 
-    //todo Member setting => @Builder로 만들기
+    //todo RegisterRequest Dto 생성 {name email password created enable.}
     public void signup(RegisterRequest registerRequest) {
+
         Member member = new Member();
-        member.setUsername(registerRequest.getUsername());
+        member.setName(registerRequest.getName());
         member.setEmail(registerRequest.getEmail());
         member.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         member.setCreated(Instant.now());
         member.setEnabled(false);
-
         memberRepository.save(member);
 
         String token = generateVerificationToken(member);
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
-                member.getEmail(), "Thank you for signing up to Spring Reddit, " +
-                "please click on the below url to activate your account : " +
+                member.getEmail(), "please click on the below url to activate your account : " +
                 "http://localhost:8080/api/auth/accountVerification/" + token));
     }
 
