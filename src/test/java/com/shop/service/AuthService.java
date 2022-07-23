@@ -1,7 +1,6 @@
 package com.shop.service;
 
 import com.shop.entity.Member;
-import com.shop.entity.VerificationToken;
 import com.shop.exception.SpringRedditException;
 import com.shop.repository.MemberRepository;
 import com.shop.repository.VerificationTokenRepository;

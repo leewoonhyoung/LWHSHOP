@@ -47,7 +47,7 @@ public class CartService {
         Cart cart = cartRepository.findByMemberId(member.getId());
         if(cart == null){
             //만약 상품을 처음으로 장바구니에 담을 경우 회원의 장바구니 엔티티를 생성한다.
-            cart= Cart.creatCart(member);
+            cart= Cart.createCart(member);
             cartRepository.save(cart);
         }
 
