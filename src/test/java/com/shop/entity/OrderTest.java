@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-
 import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestPropertySource(locations="classpath:application-test.properties")
@@ -29,14 +26,16 @@ class OrderTest {
     OrderRepository orderRepository;
 
     @Autowired
-    MemberRepository memberRepository;
-
-
-    @Autowired
     ItemRepository itemRepository;
 
     @PersistenceContext
     EntityManager em;
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
 
     public Item createItem(){
         Item item = new Item();
@@ -46,44 +45,20 @@ class OrderTest {
         item.setItemSellStatus(ItemSellStatus.SELL);
         item.setStockNumber(100);
         item.setRegTime(LocalDateTime.now());
+
         item.setUpdateTime(LocalDateTime.now());
         return item;
     }
 
     @Test
     @DisplayName("영속성 전이 테스트")
-    public void cascadeTest(){
+    public void cascadeTest() {
+
         Order order = new Order();
 
-    for(int i =0; i<3; i++) {
-        Item item = this.createItem();
-        itemRepository.save(item);
-        OrderItem orderItem = new OrderItem();
-        orderItem.setItem(item);
-        orderItem.setCount(10);
-        orderItem.setOrderPrice(1000);
-        orderItem.setOrder(order);
-        order.getOrderItems().add(orderItem);
-    }
-    orderRepository.saveAndFlush(order);
-    em.clear();
-
-    Order savedOrder = orderRepository.findById(order.getId())
-            .orElseThrow(EntityNotFoundException::new);
-    assertEquals(3, savedOrder.getOrderItems().size());
-    }
-
-
-    //고아 객체 삭제 TEst문
-
-    public Order createOrder(){
-        Order order = new Order();
-
-        for(int i =0; i<3 ; i++){
-
+        for(int i=0;i<3;i++){
             Item item = this.createItem();
             itemRepository.save(item);
-
             OrderItem orderItem = new OrderItem();
             orderItem.setItem(item);
             orderItem.setCount(10);
@@ -92,9 +67,28 @@ class OrderTest {
             order.getOrderItems().add(orderItem);
         }
 
+        orderRepository.saveAndFlush(order);
+        em.clear();
+
+        Order savedOrder = orderRepository.findById(order.getId())
+                .orElseThrow(EntityNotFoundException::new);
+        assertEquals(3, savedOrder.getOrderItems().size());
+    }
+
+    public Order createOrder(){
+        Order order = new Order();
+        for(int i=0;i<3;i++){
+            Item item = createItem();
+            itemRepository.save(item);
+            OrderItem orderItem = new OrderItem();
+            orderItem.setItem(item);
+            orderItem.setCount(10);
+            orderItem.setOrderPrice(1000);
+            orderItem.setOrder(order);
+            order.getOrderItems().add(orderItem);
+        }
         Member member = new Member();
         memberRepository.save(member);
-
         order.setMember(member);
         orderRepository.save(order);
         return order;
@@ -104,12 +98,9 @@ class OrderTest {
     @DisplayName("고아객체 제거 테스트")
     public void orphanRemovalTest(){
         Order order = this.createOrder();
-        order.getOrderItems().remove(0); // order 엔티티에서 관리하고 있는 orderItem 리스트의 0번째 인덱스 요소를 제거합니다.
+        order.getOrderItems().remove(0);
         em.flush();
     }
-
-    @Autowired
-    OrderItemRepository orderItemRepository;
 
     @Test
     @DisplayName("지연 로딩 테스트")
@@ -118,14 +109,12 @@ class OrderTest {
         Long orderItemId = order.getOrderItems().get(0).getId();
         em.flush();
         em.clear();
-
         OrderItem orderItem = orderItemRepository.findById(orderItemId)
                 .orElseThrow(EntityNotFoundException::new);
         System.out.println("Order class : " + orderItem.getOrder().getClass());
-        System.out.println("======================");
+        System.out.println("===========================");
         orderItem.getOrder().getOrderDate();
-        System.out.println("======================");
+        System.out.println("===========================");
     }
-
 
 }

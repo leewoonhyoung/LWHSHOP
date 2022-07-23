@@ -6,7 +6,6 @@ import com.shop.entity.Item;
 import com.shop.entity.ItemImg;
 import com.shop.repository.ItemImgRepository;
 import com.shop.repository.ItemRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,9 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
-@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(locations="classpath:application-test.properties")
 class ItemServiceTest {
 
     @Autowired
@@ -42,7 +39,7 @@ class ItemServiceTest {
         List<MultipartFile> multipartFileList = new ArrayList<>();
 
         for(int i=0;i<5;i++){
-            String path = "C:/Users/wh361/IdeaProjects/images/shop/item";
+            String path = "C:/shop/item/";
             String imageName = "image" + i + ".jpg";
             MockMultipartFile multipartFile =
                     new MockMultipartFile(path, imageName, "image/jpg", new byte[]{1,2,3,4});
@@ -77,4 +74,5 @@ class ItemServiceTest {
         assertEquals(itemFormDto.getStockNumber(), item.getStockNumber());
         assertEquals(multipartFileList.get(0).getOriginalFilename(), itemImgList.get(0).getOriImgName());
     }
+
 }

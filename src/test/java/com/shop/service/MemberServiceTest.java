@@ -2,9 +2,6 @@ package com.shop.service;
 
 import com.shop.dto.MemberFormDto;
 import com.shop.entity.Member;
-import lombok.Builder;
-import org.assertj.core.api.Assertions;
-import org.eclipse.jdt.internal.compiler.lookup.MemberTypeBinding;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-@Builder
 @Transactional
-@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(locations="classpath:application-test.properties")
 class MemberServiceTest {
 
     @Autowired
@@ -29,7 +26,7 @@ class MemberServiceTest {
 
     public Member createMember(){
         MemberFormDto memberFormDto = new MemberFormDto();
-        memberFormDto.setEmail("test@gmail.com");
+        memberFormDto.setEmail("test@email.com");
         memberFormDto.setName("홍길동");
         memberFormDto.setAddress("서울시 마포구 합정동");
         memberFormDto.setPassword("1234");
@@ -38,12 +35,14 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원가입 테스트")
-    public void savedMemberTest(){
-        Member member = new Member();
+    public void saveMemberTest(){
+        Member member = createMember();
         Member savedMember = memberService.saveMember(member);
-
         assertEquals(member.getEmail(), savedMember.getEmail());
-
+        assertEquals(member.getName(), savedMember.getName());
+        assertEquals(member.getAddress(), savedMember.getAddress());
+        assertEquals(member.getPassword(), savedMember.getPassword());
+        assertEquals(member.getRole(), savedMember.getRole());
     }
 
     @Test
@@ -52,12 +51,8 @@ class MemberServiceTest {
         Member member1 = createMember();
         Member member2 = createMember();
         memberService.saveMember(member1);
-
-        Throwable e = assertThrows(IllegalStateException.class, ()->{
-            memberService.saveMember(member2);
-        });
-
+        Throwable e = assertThrows(IllegalStateException.class, () -> {
+            memberService.saveMember(member2);});
         assertEquals("이미 가입된 회원입니다.", e.getMessage());
     }
-
 }

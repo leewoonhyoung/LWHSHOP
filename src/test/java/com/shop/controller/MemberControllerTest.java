@@ -3,7 +3,6 @@ package com.shop.controller;
 import com.shop.dto.MemberFormDto;
 import com.shop.entity.Member;
 import com.shop.service.MemberService;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +14,12 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@TestPropertySource(locations = "classpath:application-test.properties")
+@TestPropertySource(locations="classpath:application-test.properties")
 class MemberControllerTest {
 
     @Autowired
@@ -57,16 +55,14 @@ class MemberControllerTest {
 
     @Test
     @DisplayName("로그인 실패 테스트")
-    public void logoutTest() throws Exception{
-        String email = "test@gmail.com";
+    public void loginFailTest() throws Exception{
+        String email = "test@email.com";
         String password = "1234";
         this.createMember(email, password);
         mockMvc.perform(formLogin().userParameter("email")
                 .loginProcessingUrl("/members/login")
-                .user(email)
-                .password("12345"))
+                .user(email).password("12345"))
                 .andExpect(SecurityMockMvcResultMatchers.unauthenticated());
     }
-
 
 }

@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter
 @Table(name="cart_item")
-//cartitem을 사이에 두어 cart와 item 사이의 연관관계를 mapping 하였다.
 public class CartItem extends BaseEntity {
 
     @Id
@@ -41,6 +40,5 @@ public class CartItem extends BaseEntity {
     public void updateCount(int count){
         this.count = count;
     }
-
 
 }

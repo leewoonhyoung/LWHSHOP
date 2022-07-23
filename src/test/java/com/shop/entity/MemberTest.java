@@ -13,12 +13,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
-@TestPropertySource(locations = "classpath:application-test.properties")
-class MemberTest {
+@TestPropertySource(locations="classpath:application-test.properties")
+public class MemberTest {
 
     @Autowired
     MemberRepository memberRepository;
@@ -28,21 +26,20 @@ class MemberTest {
 
     @Test
     @DisplayName("Auditing 테스트")
-    @WithMockUser(username="lee", roles = "USER")
+    @WithMockUser(username = "gildong", roles = "USER")
     public void auditingTest(){
-
-        Member member = new Member();
-        memberRepository.save(member);
+        Member newMember = new Member();
+        memberRepository.save(newMember);
 
         em.flush();
         em.clear();
 
-        Member result = memberRepository.findById(member.getId()).orElseThrow(EntityNotFoundException::new);
-
+        Member member = memberRepository.findById(newMember.getId())
+                .orElseThrow(EntityNotFoundException::new);
 
         System.out.println("register time : " + member.getRegTime());
         System.out.println("update time : " + member.getUpdateTime());
-        System.out.println("create member : " + member.getCreateBy());
+        System.out.println("create member : " + member.getCreatedBy());
         System.out.println("modify member : " + member.getModifiedBy());
     }
 

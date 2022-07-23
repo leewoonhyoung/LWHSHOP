@@ -14,13 +14,11 @@ import javax.persistence.MappedSuperclass;
 @Getter
 public abstract class BaseEntity extends BaseTimeEntity{
 
-    //데이터 생성자 자동 저장 어노테이션
     @CreatedBy
     @Column(updatable = false)
-    private String createBy;
+    private String createdBy;
 
-
-    //데이터 수정자 자동 저장 어노테이션
     @LastModifiedBy
     private String modifiedBy;
+
 }
