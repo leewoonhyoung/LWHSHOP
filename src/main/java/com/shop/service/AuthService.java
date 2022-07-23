@@ -1,10 +1,20 @@
 package com.shop.service;
 
+import com.programming.techie.springredditclone.dto.AuthenticationResponse;
+import com.programming.techie.springredditclone.dto.LoginRequest;
+import com.programming.techie.springredditclone.dto.RefreshTokenRequest;
+import com.programming.techie.springredditclone.dto.RegisterRequest;
+import com.programming.techie.springredditclone.exceptions.SpringRedditException;
+import com.programming.techie.springredditclone.model.NotificationEmail;
+import com.programming.techie.springredditclone.model.User;
+import com.programming.techie.springredditclone.model.VerificationToken;
+import com.programming.techie.springredditclone.repository.UserRepository;
+import com.programming.techie.springredditclone.repository.VerificationTokenRepository;
+import com.programming.techie.springredditclone.security.JwtProvider;
+import com.shop.constant.Role;
 import com.shop.entity.Member;
-import com.shop.entity.VerificationToken;
-import com.shop.exception.SpringRedditException;
 import com.shop.repository.MemberRepository;
-import com.shop.repository.VerificationTokenRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,13 +23,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
+@AllArgsConstructor
+@Transactional
 public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
@@ -30,6 +43,8 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
 
+
+    //todo Member setting => @Builder로 만들기
     public void signup(RegisterRequest registerRequest) {
         Member member = new Member();
         member.setUsername(registerRequest.getUsername());
@@ -38,7 +53,7 @@ public class AuthService {
         member.setCreated(Instant.now());
         member.setEnabled(false);
 
-        userRepository.save(member);
+        memberRepository.save(member);
 
         String token = generateVerificationToken(member);
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
@@ -48,18 +63,18 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public User getCurrentUser() {
+    public Member getCurrentUser() {
         Jwt principal = (Jwt) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
-        return userRepository.findByUsername(principal.getSubject())
+        return MemberRepository.findByUsername(principal.getSubject())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getSubject()));
     }
 
     private void fetchUserAndEnable(VerificationToken verificationToken) {
         String username = verificationToken.getUser().getUsername();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new SpringRedditException("User not found with name - " + username));
+        User user = MemberRepository.findByUsername(username).orElseThrow(() -> new SpringRedditException("User not found with name - " + username));
         user.setEnabled(true);
-        userRepository.save(user);
+        MemberRepository.save(user);
     }
 
     private String generateVerificationToken(User user) {
@@ -106,4 +121,3 @@ public class AuthService {
         return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
     }
 }
-
