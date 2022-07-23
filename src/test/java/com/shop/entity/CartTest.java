@@ -15,6 +15,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 @Transactional
 @TestPropertySource(locations="classpath:application-test.properties")
@@ -56,7 +58,7 @@ class CartTest {
 
         Cart savedCart = cartRepository.findById(cart.getId())
                 .orElseThrow(EntityNotFoundException::new);
-        assertEquals(savedCart.getMember().getId(), member.getId());
+                assertEquals(savedCart.getMember().getId(), member.getId());
     }
 
 }

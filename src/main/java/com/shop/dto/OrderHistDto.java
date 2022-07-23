@@ -9,13 +9,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter
 public class OrderHistDto {
-
-    private Long orderId;
-    private String orderDate;
-    private OrderStatus orderStatus;
 
     public OrderHistDto(Order order){
         this.orderId = order.getId();
@@ -23,9 +18,13 @@ public class OrderHistDto {
         this.orderStatus = order.getOrderStatus();
     }
 
-    //주문 상품 리스트
+    private Long orderId; //주문아이디
+    private String orderDate; //주문날짜
+    private OrderStatus orderStatus; //주문 상태
+
     private List<OrderItemDto> orderItemDtoList = new ArrayList<>();
 
+    //주문 상품리스트
     public void addOrderItemDto(OrderItemDto orderItemDto){
         orderItemDtoList.add(orderItemDto);
     }
